@@ -1,0 +1,6 @@
+{
+  "name": "KaushalSetu",
+  "description": "Frontend platform for skill assessment, job matching, labour market insights, and curriculum planning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
