@@ -7,7 +7,7 @@
 export const config = {
   appName: 'Kaushal Setu',
   appTagline: 'Bridge your skills to your career',
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'https://kaushal-setu-yy27.onrender.com/api',
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'https://kaushal-setu-yy27.onrender.com',
   tokenStorageKey: 'kaushalsetu_token',
   userStorageKey: 'kaushalsetu_user',
   routes: {
