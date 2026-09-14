@@ -105,4 +105,6 @@ if __name__ == "__main__":
             print(f"  - {problem}")
         print("The server will still start, but endpoints that need these values will fail.")
 
-    app.run(debug=DEBUG_MODE, port=5000)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=DEBUG_MODE)
