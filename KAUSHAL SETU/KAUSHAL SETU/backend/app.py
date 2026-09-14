@@ -30,13 +30,7 @@ app = Flask(__name__)
 
 # Restrict CORS to the configured frontend origins. The default list covers
 # local development (Vite on 3000/5173); production origins are set via env.
-CORS(
-    app,
-    resources={r"/api/*": {"origins": CORS_ORIGINS}},
-    supports_credentials=False,
-    allow_headers=["Content-Type", "Authorization", "Accept"],
-    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 app.register_blueprint(skill_bp)
 app.register_blueprint(auth_bp)
