@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Kaushal Setu design tokens
+   Palette: deep forest ink (bridge at dusk), warm parchment (paper),
+   saffron accent (energy/craft). Editorial, not dashboard.
+   --------------------------------------------------------------- */
+
+:root {
+  --ink: #0e2420;
+  --ink-soft: #294b43;
+  --ink-muted: #5b7169;
+  --paper: #f7f4ee;
+  --paper-raised: #fffdf9;
+  --saffron: #e8720c;
+  --saffron-deep: #c25a04;
+  --sage: #6f9c8f;
+  --line: rgba(14, 36, 32, 0.12);
+  --line-strong: rgba(14, 36, 32, 0.28);
+  --radius: 14px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--ink);
+    background-color: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background: rgba(232, 114, 12, 0.22);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--saffron);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Fluid type scale used across marketing and app surfaces. */
+.type-hero { font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 1.02; letter-spacing: -0.02em; }
+.type-display { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.08; letter-spacing: -0.015em; }
+.type-title { font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.15; }
+.type-lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); line-height: 1.6; }
+
+/* Paper texture: barely-there noise to avoid flat digital backgrounds. */
+.paper-texture {
+  background-image:
+    radial-gradient(rgba(14, 36, 32, 0.035) 1px, transparent 1px),
+    radial-gradient(rgba(14, 36, 32, 0.02) 1px, transparent 1px);
+  background-size: 22px 22px, 34px 34px;
+  background-position: 0 0, 11px 17px;
+}
+
+.ink-panel {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Hand-drawn underline accent for section titles. */
+.brush-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.brush-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.18em;
+  height: 0.28em;
+  background: linear-gradient(90deg, rgba(232, 114, 12, 0.9), rgba(232, 114, 12, 0.35));
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.brush-underline.is-visible::after {
+  transform: scaleX(1);
+}
+
+/* Bridge deck divider between dark and light sections. */
+.bridge-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong) 18%, var(--line-strong) 82%, transparent);
+}
+
+/* Reveal-on-scroll primitives (IntersectionObserver adds .is-visible). */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background: var(--saffron);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.8rem 1.6rem;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(14, 36, 32, 0.18);
+}
+
+.btn-primary:hover {
+  background: var(--saffron-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(232, 114, 12, 0.28);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-weight: 600;
+  padding: 0.8rem 1.6rem;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: rgba(14, 36, 32, 0.05);
+  transform: translateY(-1px);
+}
+
+.btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(247, 244, 238, 0.35);
+  color: var(--paper);
+  font-weight: 600;
+  padding: 0.8rem 1.6rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-ghost-light:hover {
+  background: rgba(247, 244, 238, 0.1);
+  border-color: rgba(247, 244, 238, 0.6);
+}
+
+/* Card that stays quiet until hovered. */
+.quiet-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.quiet-card:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 10px 30px rgba(14, 36, 32, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Form controls */
+.field-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.925rem;
+  color: var(--ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input::placeholder { color: var(--ink-muted); }
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 3px rgba(232, 114, 12, 0.16);
+}
+}
+
+/* Thin scrollbars for horizontal pill rails */
+.scrollbar-thin::-webkit-scrollbar { height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(14, 36, 32, 0.07);
+  border-radius: 8px;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
+}
